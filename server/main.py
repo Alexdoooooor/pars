@@ -17,6 +17,7 @@ from server.routes.analytics import router as analytics_router
 from server.routes.automation import router as automation_router
 from server.routes.scenarios import router as scenarios_router
 from server.schemas import HealthOut, PublicStatusOut
+from server.services.bootstrap_schema import ensure_schema_applied
 from server.services.scheduler import scheduler_loop
 
 logging.basicConfig(level=logging.INFO)
@@ -27,6 +28,10 @@ ROOT = Path(__file__).resolve().parent.parent
 
 @asynccontextmanager
 async def _lifespan_scheduler(_app: FastAPI):
+    try:
+        await asyncio.to_thread(ensure_schema_applied)
+    except Exception:
+        logger.exception("schema bootstrap failed")
     task = asyncio.create_task(scheduler_loop(), name="pi_scheduler")
     yield
     task.cancel()
