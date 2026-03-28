@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Intelligence — Авиа</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" class="vtb-logo-wrap" aria-label="ВТБ Тревел">
+        <svg viewBox="0 0 219 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8676 0.0238647L11.1484 10.228H62.6885L66.4077 0.0238647H14.8676ZM9.28761 15.3277L5.56839 25.5295H57.1085L60.8277 15.3277H9.28761ZM3.71922 30.6316L0 40.8334H51.5401L55.257 30.6316H3.71922Z" fill="#00AAFF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M109.571 44.7217V44.937C111.926 45.8029 114.176 47.3171 115.355 48.2895C118.997 51.3179 120.605 55.3187 120.605 60.5096C120.605 69.0553 116.105 75.2186 108.713 77.1658C106.463 77.814 104.108 78.0317 99.7134 78.0317H77.3265V15.5237H97.1447C101.216 15.5237 104 15.739 106.463 16.3872C113.642 18.3344 118.355 23.31 118.355 31.2027C118.355 35.4212 116.855 38.9914 114.392 41.3692C113.321 42.4504 111.821 43.7493 109.571 44.7217ZM89.7527 51.3179V67.7564H98.3236C100.892 67.7564 103.25 67.5411 104.966 65.9181C106.679 64.2951 107.429 62.2414 107.429 59.5372C107.429 57.4835 106.892 55.5364 105.821 54.131C104 51.8597 101.75 51.3179 97.8947 51.3179H89.7527ZM89.6449 40.5032H96.608C98.7501 40.5032 99.8212 40.5032 100.892 40.1791C103.787 39.3132 105.608 36.7201 105.608 33.1499C105.608 28.9338 103.679 27.0931 100.892 26.2295C99.7134 25.9054 98.5369 25.7966 96.1791 25.7966H89.6449V40.5032ZM139.244 78.0317V26.0119H121.355V15.5237H171.062L167.528 26.0119H151.671V78.0317H139.244ZM174.917 78.0317V15.5237H215.198L211.664 26.0119H187.238V39.855H197.201C205.235 39.855 209.414 41.8021 212.306 44.2887C214.556 46.2359 218.412 50.5608 218.412 59.1066C218.412 67.5411 214.448 72.1902 211.127 74.5703C207.272 77.2722 203.201 78.0317 194.951 78.0317H174.917ZM187.238 67.5411H196.559C200.093 67.5411 202.235 66.6752 203.735 64.728C204.485 63.7556 205.556 62.0238 205.556 58.7801C205.556 55.5364 204.485 53.2651 202.343 51.642C201.059 50.6696 199.343 50.1302 196.451 50.1302H187.238V67.5411Z" fill="white"/>
+        </svg>
+      </a>
+      <div class="sidebar-brand-sub">Тревел · Price Intelligence</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Главная</div>
+      <a class="nav-item" href="index.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Дашборд</a>
+      <div class="nav-section-label" style="margin-top:var(--space-4)">Анализ цен</div>
+      <a class="nav-item active" href="avia.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19.5 2.5S18 2 16.5 3.5L13 7 4.8 5.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>Авиабилеты</a>
+      <a class="nav-item" href="rail.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="3" width="12" height="14" rx="2"/><path d="M8 17h8"/><path d="M7 21l2-3M17 21l-2-3"/></svg>Ж/д билеты</a>
+      <a class="nav-item" href="hotels.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Отели</a>
+      <a class="nav-item" href="tours.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Туры</a>
+      <a class="nav-item" href="overview.html"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Общий обзор</a>
+    </nav>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div><div class="topbar-title">Поиск авиабилетов</div><div class="topbar-subtitle">Введите маршрут и параметры, затем нажмите «Найти»</div></div>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="search-panel">
+        <span class="search-panel-label">Сценарий поиска</span>
+        <form id="search-form" class="search-fields" onsubmit="return false;">
+          <div class="search-field"><label>Откуда</label><input name="origin_label" placeholder="Москва" value="Москва"></div>
+          <div class="search-field"><label>Код откуда</label><input name="origin_code" placeholder="MOW" value="MOW"></div>
+          <div class="search-field"><label>Куда</label><input name="destination_label" placeholder="Санкт-Петербург"></div>
+          <div class="search-field"><label>Код куда</label><input name="destination_code" placeholder="LED"></div>
+          <div class="search-field"><label>Дата туда</label><input type="date" name="date_departure"></div>
+          <div class="search-field"><label>Дата обратно</label><input type="date" name="date_return"></div>
+          <div class="search-field"><label>Время туда</label><input name="time_departure_pref" placeholder="10:00"></div>
+          <div class="search-field"><label>Время обратно</label><input name="time_return_pref" placeholder="18:00"></div>
+          <div class="search-field"><label>Пассажиры</label><input type="number" min="1" max="9" name="passengers_adults" value="1"></div>
+          <div class="search-field"><label>Класс</label><select name="cabin_class"><option value="economy">Эконом</option><option value="business">Бизнес</option></select></div>
+          <div class="search-field"><label>Без пересадок</label><input type="checkbox" name="direct_only"></div>
+          <div class="search-field"><label>С багажом</label><input type="checkbox" name="baggage_included"></div>
+          <div class="search-field"><label>Комментарий</label><input name="tariff_notes" placeholder="Например: тариф с возвратом"></div>
+        </form>
+        <button id="btn-find" class="search-btn">Найти</button>
+      </div>
+
+      <div class="card" style="margin-bottom:var(--space-6);">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Статус поиска</div>
+            <div class="card-subtitle" id="search-meta">Сценарий не запускался</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="search-status" style="font-size:var(--text-sm);color:var(--color-text-muted);">Ожидаю запуск</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Результаты по площадкам</div>
+          <div class="card-subtitle">После нажатия «Найти» формируется сценарий, запускается обработка и выводится таблица</div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Сайт</th><th>Цена</th><th>Ссылка</th><th>Примечание</th></tr>
+            </thead>
+            <tbody id="results-body">
+              <tr><td colspan="4" style="color:var(--color-text-muted)">Результатов пока нет.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer>Price Intelligence · Авиа</footer>
+  </div>
+</div>
+
+<script src="api/public-config.js"></script>
+<script src="js/pi-api.js"></script>
+<script src="js/search-ui.js"></script>
+<script>
+(function () {
+  var t = document.querySelector('[data-theme-toggle]');
+  var r = document.documentElement;
+  var d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  if (t) t.addEventListener('click', function () {
+    d = d === 'dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', d);
+  });
+  SearchUI.initSearchPage({ productType: "avia" });
+})();
+</script>
+</body>
+</html>

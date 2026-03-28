@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Автоматизация · Price Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { overflow: auto; height: auto; min-height: 100dvh; display: block; background: var(--color-bg); }
+    .admin-top { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-5) var(--space-8); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
+    .admin-top h1 { font-family: var(--font-display); font-size: var(--text-xl); }
+    .admin-wrap { padding: var(--space-8); max-width: 1000px; margin: 0 auto; }
+    .btn-secondary { background: var(--color-surface-offset); color: var(--color-text); font-weight: 600; font-size: var(--text-sm); padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .toolbar { margin-bottom: var(--space-6); display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .f label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted); display: block; margin-bottom: var(--space-2); }
+    .f input { width: 100%; max-width: 200px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font: inherit; }
+    .alert { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-error-bg); color: var(--color-error); font-size: var(--text-sm); display: none; margin-bottom: var(--space-4); }
+    .alert.show { display: block; }
+    .hint { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-6); line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <header class="admin-top">
+    <div>
+      <h1>Автоматизация парсера</h1>
+      <div style="font-size:var(--text-sm);color:var(--color-text-muted);">Периодический запуск сценариев (фоновый планировщик на сервере, шаг ~1 мин)</div>
+    </div>
+    <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+      <a href="dashboard.html" class="btn-secondary">Аналитика</a>
+      <a href="scenarios.html" class="btn-secondary">Сценарии</a>
+      <a href="index.html" class="btn-secondary">Смена пользователя</a>
+    </div>
+  </header>
+  <div class="admin-wrap">
+    <div id="alert" class="alert"></div>
+    <p class="hint">На каждый сценарий — одно расписание. Интервал в минутах (от 5 до 10080). После сохранения дождитесь ближайшего тика планировщика или запустите сценарий вручную.</p>
+    <div class="card" style="margin-bottom:var(--space-6);">
+      <div class="card-header"><div class="card-title">Новое расписание</div></div>
+      <div class="card-body" style="display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:flex-end;">
+        <div class="f"><label>ID сценария</label><input type="number" id="sid" min="1" step="1"></div>
+        <div class="f"><label>Интервал (мин)</label><input type="number" id="intv" min="5" max="10080" value="1440"></div>
+        <button type="button" class="btn-primary" id="btn-add" style="border:none;">Добавить</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn-secondary" id="btn-refresh">Обновить список</button>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Активные расписания</div></div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>ID</th><th>Сценарий</th><th>Интервал</th><th>Вкл</th><th>Последний запуск</th><th></th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="../api/public-config.js"></script>
+  <script src="../js/pi-api.js"></script>
+  <script>
+  if (!sessionStorage.getItem('pi_basic')) location.href = 'index.html';
+  function showErr(msg) {
+    var a = document.getElementById('alert');
+    a.textContent = msg;
+    a.classList.add('show');
+  }
+  function fmtDt(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? iso : d.toLocaleString('ru-RU');
+  }
+  async function load() {
+    document.getElementById('alert').classList.remove('show');
+    try {
+      var rows = await PIApi.api('/api/automation/schedules', { method: 'GET' });
+      var tb = document.getElementById('tbody');
+      tb.innerHTML = '';
+      rows.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + r.id + '</td>' +
+          '<td>#' + r.scenario_id + ' · ' + escapeHtml(r.scenario_title) + '</td>' +
+          '<td>' + r.interval_minutes + ' мин</td>' +
+          '<td><input type="checkbox" data-id="' + r.id + '" class="en"' + (r.enabled ? ' checked' : '') + '></td>' +
+          '<td style="font-size:var(--text-xs);">' + fmtDt(r.last_scheduled_run_at) + '</td>' +
+          '<td><button type="button" class="btn-secondary" data-del="' + r.id + '">Удалить</button></td>';
+        tb.appendChild(tr);
+      });
+      tb.querySelectorAll('.en').forEach(function (cb) {
+        cb.addEventListener('change', function () { toggle(parseInt(cb.getAttribute('data-id'), 10), cb.checked); });
+      });
+      tb.querySelectorAll('[data-del]').forEach(function (b) {
+        b.addEventListener('click', function () { del(parseInt(b.getAttribute('data-del'), 10)); });
+      });
+    } catch (e) {
+      if (String(e.message) === '401') location.href = 'index.html';
+      showErr(e.message);
+    }
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  async function toggle(id, enabled) {
+    try {
+      await PIApi.api('/api/automation/schedules/' + id, {
+        method: 'PATCH',
+        body: JSON.stringify({ enabled: enabled })
+      });
+    } catch (e) {
+      showErr(e.message);
+      load();
+    }
+  }
+  async function del(id) {
+    if (!confirm('Удалить расписание #' + id + '?')) return;
+    try {
+      await PIApi.api('/api/automation/schedules/' + id, { method: 'DELETE' });
+      load();
+    } catch (e) {
+      showErr(e.message);
+    }
+  }
+  document.getElementById('btn-refresh').addEventListener('click', load);
+  document.getElementById('btn-add').addEventListener('click', async function () {
+    document.getElementById('alert').classList.remove('show');
+    var sid = parseInt(document.getElementById('sid').value, 10);
+    var intv = parseInt(document.getElementById('intv').value, 10);
+    if (!sid) { showErr('Укажите ID сценария'); return; }
+    try {
+      await PIApi.api('/api/automation/schedules', {
+        method: 'POST',
+        body: JSON.stringify({ scenario_id: sid, interval_minutes: intv, enabled: true })
+      });
+      document.getElementById('sid').value = '';
+      load();
+    } catch (e) {
+      showErr(e.message);
+    }
+  });
+  load();
+  </script>
+</body>
+</html>

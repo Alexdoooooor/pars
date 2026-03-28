@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВТБ Тревел — Общий обзор | Итоговый анализ</title>
+  <meta name="description" content="Общий обзор: ВТБ Тревел vs конкуренты по всем категориям. Радарная диаграмма, матрица сравнения, итоговые рейтинги.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="dashboard">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" class="vtb-logo-wrap" aria-label="ВТБ Тревел">
+        <svg viewBox="0 0 219 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.8676 0.0238647L11.1484 10.228H62.6885L66.4077 0.0238647H14.8676ZM9.28761 15.3277L5.56839 25.5295H57.1085L60.8277 15.3277H9.28761ZM3.71922 30.6316L0 40.8334H51.5401L55.257 30.6316H3.71922Z" fill="#00AAFF"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M109.571 44.7217V44.937C111.926 45.8029 114.176 47.3171 115.355 48.2895C118.997 51.3179 120.605 55.3187 120.605 60.5096C120.605 69.0553 116.105 75.2186 108.713 77.1658C106.463 77.814 104.108 78.0317 99.7134 78.0317H77.3265V15.5237H97.1447C101.216 15.5237 104 15.739 106.463 16.3872C113.642 18.3344 118.355 23.31 118.355 31.2027C118.355 35.4212 116.855 38.9914 114.392 41.3692C113.321 42.4504 111.821 43.7493 109.571 44.7217ZM89.7527 51.3179V67.7564H98.3236C100.892 67.7564 103.25 67.5411 104.966 65.9181C106.679 64.2951 107.429 62.2414 107.429 59.5372C107.429 57.4835 106.892 55.5364 105.821 54.131C104 51.8597 101.75 51.3179 97.8947 51.3179H89.7527ZM89.6449 40.5032H96.608C98.7501 40.5032 99.8212 40.5032 100.892 40.1791C103.787 39.3132 105.608 36.7201 105.608 33.1499C105.608 28.9338 103.679 27.0931 100.892 26.2295C99.7134 25.9054 98.5369 25.7966 96.1791 25.7966H89.6449V40.5032ZM139.244 78.0317V26.0119H121.355V15.5237H171.062L167.528 26.0119H151.671V78.0317H139.244ZM174.917 78.0317V15.5237H215.198L211.664 26.0119H187.238V39.855H197.201C205.235 39.855 209.414 41.8021 212.306 44.2887C214.556 46.2359 218.412 50.5608 218.412 59.1066C218.412 67.5411 214.448 72.1902 211.127 74.5703C207.272 77.2722 203.201 78.0317 194.951 78.0317H174.917ZM187.238 67.5411H196.559C200.093 67.5411 202.235 66.6752 203.735 64.728C204.485 63.7556 205.556 62.0238 205.556 58.7801C205.556 55.5364 204.485 53.2651 202.343 51.642C201.059 50.6696 199.343 50.1302 196.451 50.1302H187.238V67.5411Z" fill="white"/>
+        </svg>
+      </a>
+      <div class="sidebar-brand-sub">Тревел · Price Intelligence</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Главная</div>
+      <a class="nav-item" href="index.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Дашборд
+      </a>
+      <div class="nav-section-label" style="margin-top:var(--space-4)">Анализ цен</div>
+      <a class="nav-item" href="avia.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19.5 2.5S18 2 16.5 3.5L13 7 4.8 5.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+        </svg>
+        Авиабилеты
+      </a>
+      <a class="nav-item" href="hotels.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Отели
+      </a>
+      <a class="nav-item" href="tours.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+        Туры
+      </a>
+      <a class="nav-item active" href="overview.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        Общий обзор
+      </a>
+      <div class="nav-section-label" style="margin-top:var(--space-4)">Сценарии</div>
+      <a class="nav-item" href="admin/index.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        </svg>
+        Консоль администратора
+      </a>
+
+      <div class="nav-section-label" style="margin-top:var(--space-4)">Ресурсы</div>
+      <a class="nav-item" href="https://vtb.aviakassa.ru" target="_blank" rel="noopener">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        ВТБ Авиакасса ↗
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-meta">
+        Данные обновлены<br>
+        16 марта 2026, 17:00 МСК<br>
+        Маршрут: Москва → Стамбул
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">Общий обзор</div>
+          <div class="topbar-subtitle">ВТБ Тревел vs рынок · Москва → Стамбул · 15–25 апреля 2026</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="breadcrumb">
+          <a href="index.html">Главная</a>
+          <span class="breadcrumb-sep">›</span>
+          <span>Общий обзор</span>
+        </div>
+        <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- Section Header -->
+      <div class="section-header">
+        <div>
+          <div class="section-title">ВТБ Тревел vs Рынок</div>
+          <div class="section-meta">Москва → Стамбул · 15–25 апреля 2026 · 2 взрослых</div>
+        </div>
+        <div class="update-badge"><span class="update-dot"></span>Актуально · 16.03.2026</div>
+      </div>
+
+      <!-- Insights -->
+      <div class="insight-row">
+        <div class="insight-card">
+          <div class="insight-icon blue">✈</div>
+          <div class="insight-text">
+            <h4>Авиа: ВТБ = Яндекс = Aviasales</h4>
+            <p>По цене Аэрофлота ВТБ полностью совпадает с Яндекс Путешествиями (49 808 ₽). Абсолютный минимум — 48 877 ₽ (Aviasales, Southwind + пересадка). Разница с ВТБ — всего 931 ₽.</p>
+          </div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon gold">🏆</div>
+          <div class="insight-text">
+            <h4>С кэшбэком ВТБ — самый выгодный</h4>
+            <p>Кэшбэк ВТБ 3% на авиа (1 494 ₽) + 10% на отель (~7 200 ₽ за 10 ночей 4★) = итоговая экономия 8 694 ₽. Это делает ВТБ лидером по совокупной выгоде.</p>
+          </div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-icon green">📈</div>
+          <div class="insight-text">
+            <h4>Туту и OTT стабильно дороже</h4>
+            <p>Туту.ру и OneTwoTrip показывают цены на 2 000–4 000 ₽ выше рынка по авиа. По отелям разрыв меньше — в пределах 5–10%.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="chart-grid chart-grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Совокупная выгода ВТБ vs конкурентов</div>
+              <div class="card-subtitle">Авиа + Отель 4★ 10 ночей · с учётом кэшбэков</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrapper" style="height:280px"><canvas id="overviewRadarChart"></canvas></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Итоговая стоимость поездки</div>
+              <div class="card-subtitle">Авиа + Отель 4★ · после кэшбэка, ₽</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrapper" style="height:280px"><canvas id="overviewTotalChart"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matrix Table -->
+      <div class="card" style="margin-bottom:var(--space-6)">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Матрица сравнения сервисов</div>
+            <div class="card-subtitle">Все категории · оценка по 5-балльной шкале</div>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Сервис</th>
+                <th>Цена авиа</th>
+                <th>Цена отель</th>
+                <th>Кэшбэк авиа</th>
+                <th>Кэшбэк отель</th>
+                <th>Рус. карты</th>
+                <th>Выбор отелей</th>
+                <th>Итого ★</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="vtb-row">
+                <td><span class="service-badge"><span class="service-dot" style="background:#0A2896"></span>ВТБ Тревел<span class="vtb-star">ВТБ</span></span></td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐⭐</td>
+                <td style="color:var(--color-success);font-weight:700">3% ⭐⭐⭐⭐⭐</td>
+                <td style="color:var(--color-success);font-weight:700">10% ⭐⭐⭐⭐⭐</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐⭐</td>
+                <td style="font-size:var(--text-lg);font-weight:700;color:var(--vtb-navy)">28/30</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#FF6D00"></span>Aviasales</span></td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td>—</td>
+                <td>0% ⭐</td>
+                <td>—</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>—</td>
+                <td style="font-weight:700">11/25</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#FF0050"></span>Яндекс Путешествия</span></td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐⭐</td>
+                <td>0% ⭐</td>
+                <td>до 5% ⭐⭐⭐</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐⭐</td>
+                <td style="font-weight:700">23/30</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#003580"></span>Booking.com</span></td>
+                <td>—</td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td>—</td>
+                <td>0% ⭐</td>
+                <td>⚠️ ⭐⭐</td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td style="font-weight:700">14/25</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#00A19A"></span>Ostrovok.ru</span></td>
+                <td>—</td>
+                <td>⭐⭐⭐⭐⭐</td>
+                <td>—</td>
+                <td>до 5% ⭐⭐⭐</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐⭐</td>
+                <td style="font-weight:700">18/25</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#00897B"></span>Туту.ру</span></td>
+                <td>⭐⭐⭐</td>
+                <td>⭐⭐⭐</td>
+                <td>0% ⭐</td>
+                <td>до 3% ⭐⭐</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐</td>
+                <td style="font-weight:700">18/30</td>
+              </tr>
+              <tr>
+                <td><span class="service-badge"><span class="service-dot" style="background:#8E24AA"></span>OneTwoTrip</span></td>
+                <td>⭐⭐⭐</td>
+                <td>⭐⭐⭐</td>
+                <td>до 3% ⭐⭐</td>
+                <td>до 3% ⭐⭐</td>
+                <td>✅ ⭐⭐⭐⭐⭐</td>
+                <td>⭐⭐⭐</td>
+                <td style="font-weight:700">19/30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Winners row -->
+      <div class="card" style="margin-bottom:var(--space-6)">
+        <div class="card-header">
+          <div class="card-title">Итоговый рейтинг · Полная поездка с кэшбэком</div>
+          <div class="card-subtitle">Авиа + Отель 4★ 10 ночей · после кэшбэка</div>
+        </div>
+        <div class="card-body">
+          <div class="rank-list">
+            <div class="rank-item vtb-item">
+              <div class="rank-num gold-num">🥇</div>
+              <div class="rank-name">ВТБ Тревел<br><small style="color:var(--color-text-muted);font-weight:400">Аэрофлот + отель 4★ · кэшбэк 3%+10%</small></div>
+              <div class="rank-bar-wrap"><div class="rank-bar vtb-bar" style="width:100%"></div></div>
+              <div class="rank-price" style="color:var(--vtb-navy)">111 614 ₽</div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">2</div>
+              <div class="rank-name">Яндекс Путешествия<br><small style="color:var(--color-text-muted);font-weight:400">Аэрофлот + отель 4★ · кэшбэк до 5%</small></div>
+              <div class="rank-bar-wrap"><div class="rank-bar" style="width:94%"></div></div>
+              <div class="rank-price">119 150 ₽</div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">3</div>
+              <div class="rank-name">Aviasales + Booking<br><small style="color:var(--color-text-muted);font-weight:400">Аэрофлот + отель · без кэшбэка</small></div>
+              <div class="rank-bar-wrap"><div class="rank-bar" style="width:91%"></div></div>
+              <div class="rank-price">119 808 ₽</div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">4</div>
+              <div class="rank-name">OneTwoTrip<br><small style="color:var(--color-text-muted);font-weight:400">Аэрофлот + отель 4★ · кэшбэк до 3%</small></div>
+              <div class="rank-bar-wrap"><div class="rank-bar" style="width:87%"></div></div>
+              <div class="rank-price">124 651 ₽</div>
+            </div>
+            <div class="rank-item">
+              <div class="rank-num">5</div>
+              <div class="rank-name">Туту.ру<br><small style="color:var(--color-text-muted);font-weight:400">Победа + отель 4★ · кэшбэк до 3%</small></div>
+              <div class="rank-bar-wrap"><div class="rank-bar" style="width:86%"></div></div>
+              <div class="rank-price">124 552 ₽</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <footer>
+      Данные актуальны на 16 марта 2026 · Маршрут: Москва (MOW) → Стамбул (IST/SAW) · 15–25 апреля 2026 · 2 взрослых · Эконом
+    </footer>
+  </div>
+</div>
+
+<script>
+(function(){
+  const t = document.querySelector('[data-theme-toggle]');
+  const r = document.documentElement;
+  let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  if(t) t.addEventListener('click', () => {
+    d = d === 'dark' ? 'light' : 'dark';
+    r.setAttribute('data-theme', d);
+    buildCharts();
+  });
+})();
+
+function getC() {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  return {
+    text:    dark ? '#D8E4FF' : '#0D1B3E',
+    muted:   dark ? '#7A90C0' : '#5A6A8A',
+    grid:    dark ? 'rgba(255,255,255,0.06)' : 'rgba(10,40,150,0.06)',
+    surface: dark ? '#0D1830' : '#FFFFFF',
+  };
+}
+
+Chart.defaults.font.family = "'Inter','Segoe UI',sans-serif";
+let charts = {};
+
+function buildCharts() {
+  const c = getC();
+  const tip = { backgroundColor: c.surface, titleColor: c.text, bodyColor: c.muted, borderColor: c.grid, borderWidth: 1, padding: 10 };
+
+  if(charts.radar) charts.radar.destroy();
+  charts.radar = new Chart(document.getElementById('overviewRadarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['Цена авиа','Цена отель','Кэшбэк авиа','Кэшбэк отель','Рус. карты','Выбор'],
+      datasets: [
+        {
+          label: 'ВТБ Тревел',
+          data: [5,4,5,5,5,4],
+          borderColor: 'rgba(10,40,150,1)', backgroundColor: 'rgba(10,40,150,0.15)',
+          pointBackgroundColor: 'rgba(10,40,150,1)', pointRadius: 5, borderWidth: 2.5,
+        },
+        {
+          label: 'Aviasales',
+          data: [5,0,1,0,5,0],
+          borderColor: 'rgba(255,109,0,0.9)', backgroundColor: 'rgba(255,109,0,0.08)',
+          pointBackgroundColor: 'rgba(255,109,0,1)', pointRadius: 4, borderWidth: 2,
+        },
+        {
+          label: 'Яндекс Путешествия',
+          data: [5,4,1,3,5,4],
+          borderColor: 'rgba(255,0,80,0.9)', backgroundColor: 'rgba(255,0,80,0.08)',
+          pointBackgroundColor: 'rgba(255,0,80,1)', pointRadius: 4, borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: c.muted, font: { size: 10 }, boxWidth: 10 } }, tooltip: tip },
+      scales: {
+        r: {
+          beginAtZero: true, max: 5,
+          ticks: { color: c.muted, backdropColor: 'transparent', font: { size: 9 }, stepSize: 1 },
+          grid: { color: c.grid },
+          angleLines: { color: c.grid },
+          pointLabels: { color: c.muted, font: { size: 10 } }
+        }
+      }
+    }
+  });
+
+  if(charts.total) charts.total.destroy();
+  charts.total = new Chart(document.getElementById('overviewTotalChart'), {
+    type: 'bar',
+    data: {
+      labels: ['ВТБ Тревел\n(с кэшбэком)','Aviasales\n(без КБ на отель)','Яндекс\n(с кэшбэком)','OneTwoTrip','Туту.ру'],
+      datasets: [{
+        label: 'Итоговая стоимость (авиа + отель 4★ 10н)',
+        data: [
+          49808 + 70000 - Math.round(49808*0.03) - Math.round(70000*0.10),
+          49808 + 70000,
+          49808 + 73000 - Math.round(73000*0.05),
+          51901 + 75000 - Math.round(75000*0.03),
+          51802 + 75000 - Math.round(75000*0.03),
+        ],
+        backgroundColor: ['rgba(10,40,150,0.9)','rgba(255,109,0,0.8)','rgba(255,0,80,0.8)','rgba(142,36,170,0.8)','rgba(0,137,123,0.8)'],
+        borderRadius: 6, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...tip, callbacks: { label: ctx => ctx.raw.toLocaleString('ru') + ' ₽' } } },
+      scales: {
+        x: { ticks: { color: c.muted, font: { size: 10 }, maxRotation: 0 }, grid: { display: false } },
+        y: { ticks: { color: c.muted, font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'к ₽' }, grid: { color: c.grid }, min: 100000 }
+      }
+    }
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  buildCharts();
+  document.querySelectorAll('.rank-bar').forEach(b => {
+    const w = b.style.width; b.style.width = '0%';
+    setTimeout(() => { b.style.width = w; }, 100);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карточка сценария · Price Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { overflow: auto; height: auto; min-height: 100dvh; display: block; background: var(--color-bg); }
+    .admin-top { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-5) var(--space-8); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
+    .admin-top h1 { font-family: var(--font-display); font-size: var(--text-lg); max-width: 900px; line-height: 1.3; }
+    .admin-wrap { padding: var(--space-8); max-width: 1200px; margin: 0 auto; }
+    .toolbar { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; align-items: center; }
+    .btn-secondary { background: var(--color-surface-offset); color: var(--color-text); font-weight: 600; font-size: var(--text-sm); padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .btn-secondary:hover { background: var(--color-primary-soft); color: var(--color-primary); }
+    .btn-danger { background: var(--color-error-bg); color: var(--color-error); font-weight: 600; font-size: var(--text-sm); padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); border: none; cursor: pointer; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6); font-size: var(--text-sm); }
+    .meta-item span { display: block; font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .link-offer { color: var(--color-primary); word-break: break-all; font-size: var(--text-xs); }
+    .alert { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-error-bg); color: var(--color-error); font-size: var(--text-sm); display: none; margin-bottom: var(--space-4); }
+    .alert.show { display: block; }
+    .err-cell { color: var(--color-error); font-size: var(--text-xs); }
+  </style>
+</head>
+<body>
+  <header class="admin-top">
+    <div>
+      <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-bottom:4px;">Сценарий</div>
+      <h1 id="title">Загрузка…</h1>
+    </div>
+    <button type="button" class="theme-toggle" data-theme-toggle aria-label="Тема" style="width:36px;height:36px;border-radius:var(--radius-md);background:var(--color-surface-offset);border:1px solid var(--color-border);cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg>
+    </button>
+  </header>
+  <div class="admin-wrap">
+    <div id="alert" class="alert"></div>
+    <div class="toolbar">
+      <a href="dashboard.html" class="btn-secondary">Аналитика</a>
+      <a href="automation.html" class="btn-secondary">Автоматизация</a>
+      <a href="scenarios.html" class="btn-secondary">← К списку</a>
+      <button type="button" class="btn-primary" id="btn-run" style="border:none;">Пересчитать / в обработку</button>
+      <button type="button" class="btn-danger" id="btn-del">Удалить</button>
+    </div>
+    <div class="card" style="margin-bottom:var(--space-6);">
+      <div class="card-header"><div class="card-title">Параметры запроса</div></div>
+      <div class="card-body">
+        <div class="meta-grid" id="meta"></div>
+        <div id="last-err" style="display:none;padding:var(--space-4);background:var(--color-error-bg);border-radius:var(--radius-md);color:var(--color-error);font-size:var(--text-sm);"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Сравнение по площадкам</div>
+          <div class="card-subtitle" id="run-meta">Последний прогон</div>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr><th>Сайт</th><th>Цена</th><th>Ссылка</th><th>Примечание</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="../api/public-config.js"></script>
+  <script src="../js/pi-api.js"></script>
+  <script>
+  (function(){
+    if (!sessionStorage.getItem('pi_basic')) { location.href = 'index.html'; return; }
+    var t = document.querySelector('[data-theme-toggle]');
+    var r = document.documentElement;
+    var d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+    r.setAttribute('data-theme', d);
+    if (t) t.addEventListener('click', function(){ d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); });
+  })();
+
+  function qs(name) {
+    var m = new RegExp('[?&]' + name + '=([^&]*)').exec(location.search);
+    return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+  }
+  var id = parseInt(qs('id'), 10);
+  if (!id) { location.href = 'scenarios.html'; }
+
+  function showErr(msg) {
+    var a = document.getElementById('alert');
+    a.textContent = msg;
+    a.classList.add('show');
+  }
+  function fmtRub(n) {
+    if (n == null) return '—';
+    return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(n);
+  }
+  function fmtDt(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? iso : d.toLocaleString('ru-RU');
+  }
+
+  async function load() {
+    document.getElementById('alert').classList.remove('show');
+    try {
+      var s = await PIApi.api('/api/scenarios/' + id, { method: 'GET' });
+      document.getElementById('title').textContent = s.title;
+      var meta = document.getElementById('meta');
+      meta.innerHTML =
+        cell('Тип', s.product_type) +
+        cell('Откуда', s.origin_label + (s.origin_code ? ' (' + s.origin_code + ')' : '')) +
+        cell('Куда', s.destination_label + (s.destination_code ? ' (' + s.destination_code + ')' : '')) +
+        cell('Даты', s.date_departure + (s.date_return ? ' / ' + s.date_return : '')) +
+        cell('Время', [s.time_departure_pref, s.time_return_pref].filter(Boolean).join(' · ') || '—') +
+        cell('Пассажиры', String(s.passengers_adults)) +
+        cell('Класс', s.cabin_class) +
+        cell('Прямые', s.direct_only ? 'да' : 'нет') +
+        cell('Багаж', s.baggage_included ? 'да' : 'нет') +
+        cell('Статус', s.status);
+      var le = document.getElementById('last-err');
+      if (s.last_error) { le.style.display = 'block'; le.textContent = s.last_error; } else { le.style.display = 'none'; }
+
+      var tb = document.getElementById('tbody');
+      tb.innerHTML = '';
+      var run = s.latest_run;
+      document.getElementById('run-meta').textContent = run
+        ? ('Прогон #' + run.id + ' · ' + run.status + ' · ' + fmtDt(run.started_at) + (run.finished_at ? ' — ' + fmtDt(run.finished_at) : ''))
+        : 'Прогонов ещё не было — нажмите «В обработку»';
+
+      if (run && run.results && run.results.length) {
+        run.results.forEach(function (row) {
+          var tr = document.createElement('tr');
+          var isVtb = row.platform.code === 'vtb';
+          if (isVtb) tr.className = 'vtb-row';
+          var price = row.error_text ? '—' : fmtRub(row.price_rub);
+          var link = row.offer_url
+            ? '<a class="link-offer" href="' + escAttr(row.offer_url) + '" target="_blank" rel="noopener">открыть</a>'
+            : '—';
+          var note = row.error_text ? '<span class="err-cell">' + esc(row.error_text) + '</span>' : '';
+          tr.innerHTML = '<td><strong>' + esc(row.platform.display_name) + '</strong></td>' +
+            '<td class="price-cell">' + price + '</td>' +
+            '<td>' + link + '</td>' +
+            '<td>' + note + '</td>';
+          tb.appendChild(tr);
+        });
+      } else {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="4" style="color:var(--color-text-muted);">Нет результатов. Запустите обработку.</td>';
+        tb.appendChild(tr);
+      }
+    } catch (e) {
+      if (String(e.message) === '401') { location.href = 'index.html'; return; }
+      showErr(e.message || 'Ошибка');
+    }
+  }
+
+  function cell(k, v) {
+    return '<div class="meta-item"><span>' + esc(k) + '</span>' + esc(String(v)) + '</div>';
+  }
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function escAttr(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  }
+
+  document.getElementById('btn-run').addEventListener('click', async function () {
+    document.getElementById('alert').classList.remove('show');
+    try {
+      await PIApi.api('/api/scenarios/' + id + '/run', { method: 'POST' });
+      setTimeout(load, 500);
+    } catch (e) {
+      showErr(e.message);
+    }
+  });
+  document.getElementById('btn-del').addEventListener('click', async function () {
+    if (!confirm('Удалить сценарий?')) return;
+    try {
+      await PIApi.api('/api/scenarios/' + id, { method: 'DELETE' });
+      location.href = 'scenarios.html';
+    } catch (e) {
+      showErr(e.message);
+    }
+  });
+
+  load();
+  </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сценарии · Price Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    body { overflow: auto; height: auto; min-height: 100dvh; display: block; background: var(--color-bg); }
+    .admin-top { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-5) var(--space-8); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
+    .admin-top h1 { font-family: var(--font-display); font-size: var(--text-xl); }
+    .admin-wrap { padding: var(--space-8); max-width: 1400px; margin: 0 auto; }
+    .toolbar { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
+    .btn-secondary { background: var(--color-surface-offset); color: var(--color-text); font-weight: 600; font-size: var(--text-sm); padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); border: 1px solid var(--color-border); cursor: pointer; }
+    .btn-secondary:hover { background: var(--color-primary-soft); color: var(--color-primary); }
+    .btn-danger { background: var(--color-error-bg); color: var(--color-error); font-weight: 600; font-size: var(--text-sm); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; }
+    .btn-danger:hover { filter: brightness(0.95); }
+    .btn-sm { padding: var(--space-2) var(--space-4); font-size: var(--text-xs); }
+    .status-pill { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: var(--text-xs); font-weight: 600; }
+    .st-draft { background: var(--color-surface-offset); color: var(--color-text-muted); }
+    .st-pending { background: var(--color-warning-bg); color: var(--color-warning); }
+    .st-running { background: var(--vtb-blue-pale); color: var(--vtb-navy); }
+    .st-success { background: var(--color-success-bg); color: var(--color-success); }
+    .st-error { background: var(--color-error-bg); color: var(--color-error); }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(10,40,150,0.25); display: none; align-items: center; justify-content: center; z-index: 10050; padding: var(--space-4); }
+    .modal-backdrop.open { display: flex; }
+    .modal { position: relative; z-index: 10051; background: var(--color-surface); border-radius: var(--radius-xl); max-width: 560px; width: 100%; max-height: 90vh; overflow: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--color-border); }
+    .modal-h { padding: var(--space-6); border-bottom: 1px solid var(--color-divider); font-family: var(--font-display); font-weight: 700; }
+    .modal-b { padding: var(--space-6); display: grid; gap: var(--space-4); }
+    .modal-f { padding: var(--space-4) var(--space-6); border-top: 1px solid var(--color-divider); display: flex; gap: var(--space-3); justify-content: flex-end; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
+    .f label { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted); display: block; margin-bottom: var(--space-2); }
+    .f input, .f select { width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font: inherit; background: var(--color-surface); color: var(--color-text); }
+    .alert { padding: var(--space-4); border-radius: var(--radius-md); background: var(--color-error-bg); color: var(--color-error); font-size: var(--text-sm); display: none; }
+    .alert.show { display: block; }
+  </style>
+</head>
+<body>
+  <header class="admin-top">
+    <div>
+      <h1>Сценарии сравнения цен</h1>
+      <div style="font-size:var(--text-sm);color:var(--color-text-muted);">ВТБ и конкуренты · список запросов</div>
+    </div>
+    <div style="display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;">
+      <a href="dashboard.html" class="btn-secondary">Аналитика</a>
+      <a href="automation.html" class="btn-secondary">Автоматизация</a>
+      <a href="../index.html" class="btn-secondary">Сайт</a>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Тема" style="width:36px;height:36px;border-radius:var(--radius-md);background:var(--color-surface-offset);border:1px solid var(--color-border);cursor:pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="admin-wrap">
+    <div id="alert" class="alert"></div>
+    <div class="toolbar">
+      <button type="button" class="btn-primary" id="btn-new" style="border:none;">+ Новый сценарий</button>
+      <button type="button" class="btn-secondary" id="btn-refresh">Обновить</button>
+      <a href="index.html" class="btn-secondary">Сменить пользователя</a>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Таблица сценариев</div>
+        <div class="card-subtitle">Строка = один запрос к площадкам · «В обработку» запускает сбор цен (режим в PARSER_MODE)</div>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table" id="tbl">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Название</th>
+              <th>Создан</th>
+              <th>Статус</th>
+              <th>Последний прогон</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog">
+      <div class="modal-h">Новый сценарий</div>
+      <form id="form-new" class="modal-b">
+        <div class="f">
+          <label for="product_type">Тип</label>
+          <select id="product_type" name="product_type">
+            <option value="avia" selected>Авиа</option>
+            <option value="rail">Ж/д</option>
+            <option value="hotel">Отель</option>
+          </select>
+        </div>
+        <div class="grid2">
+          <div class="f"><label>Откуда (название)</label><input name="origin_label" placeholder="Москва" required></div>
+          <div class="f"><label>Код откуда</label><input name="origin_code" placeholder="MOW"></div>
+          <div class="f"><label>Куда (название)</label><input name="destination_label" placeholder="Санкт-Петербург" required></div>
+          <div class="f"><label>Код куда</label><input name="destination_code" placeholder="LED"></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label>Дата туда</label><input name="date_departure" type="date" required></div>
+          <div class="f"><label>Дата обратно</label><input name="date_return" type="date"></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label>Время туда (HH:MM)</label><input name="time_departure_pref" placeholder="10:00"></div>
+          <div class="f"><label>Время обратно</label><input name="time_return_pref" placeholder="18:00"></div>
+        </div>
+        <div class="grid2">
+          <div class="f"><label>Взрослых</label><input name="passengers_adults" type="number" min="1" max="9" value="1"></div>
+          <div class="f"><label>Класс</label><input name="cabin_class" value="economy"></div>
+        </div>
+        <div class="grid2">
+          <div class="f" style="display:flex;align-items:center;gap:8px;padding-top:1.5rem;">
+            <input type="checkbox" name="direct_only" id="direct_only"><label for="direct_only" style="margin:0;">Только прямые</label>
+          </div>
+          <div class="f" style="display:flex;align-items:center;gap:8px;padding-top:1.5rem;">
+            <input type="checkbox" name="baggage_included" id="baggage"><label for="baggage" style="margin:0;">Багаж включён</label>
+          </div>
+        </div>
+        <div class="f"><label>Заметки по тарифу</label><input name="tariff_notes" placeholder="опционально"></div>
+      </form>
+      <div class="modal-f">
+        <button type="button" class="btn-secondary" id="modal-cancel">Отмена</button>
+        <button type="submit" form="form-new" class="btn-primary" style="border:none;">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../api/public-config.js"></script>
+  <script src="../js/pi-api.js"></script>
+  <script>
+  (function(){
+    if (!sessionStorage.getItem('pi_basic')) { location.href = 'index.html'; return; }
+    var t = document.querySelector('[data-theme-toggle]');
+    var r = document.documentElement;
+    var d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+    r.setAttribute('data-theme', d);
+    if (t) t.addEventListener('click', function(){ d = d === 'dark' ? 'light' : 'dark'; r.setAttribute('data-theme', d); });
+  })();
+
+  function showErr(msg) {
+    var a = document.getElementById('alert');
+    a.textContent = msg;
+    a.classList.add('show');
+  }
+  function clearErr() {
+    var a = document.getElementById('alert');
+    a.classList.remove('show');
+    a.textContent = '';
+  }
+
+  function statusClass(st) {
+    return 'status-pill st-' + (st || 'draft');
+  }
+
+  function fmtDt(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? iso : d.toLocaleString('ru-RU');
+  }
+
+  async function loadList() {
+    clearErr();
+    try {
+      var rows = await PIApi.api('/api/scenarios', { method: 'GET' });
+      var tb = document.getElementById('tbody');
+      tb.innerHTML = '';
+      rows.forEach(function (row) {
+        var tr = document.createElement('tr');
+        var last = row.latest_run_status ? (row.latest_run_status + ' · ' + fmtDt(row.latest_run_finished_at)) : '—';
+        tr.innerHTML =
+          '<td>' + row.id + '</td>' +
+          '<td style="max-width:360px;">' + escapeHtml(row.title) + '</td>' +
+          '<td>' + fmtDt(row.created_at) + '</td>' +
+          '<td><span class="' + statusClass(row.status) + '">' + row.status + '</span></td>' +
+          '<td style="font-size:var(--text-xs);color:var(--color-text-muted);">' + escapeHtml(last) + '</td>' +
+          '<td style="white-space:nowrap;">' +
+            '<a class="btn-secondary btn-sm" href="scenario.html?id=' + row.id + '">Открыть</a> ' +
+            '<button type="button" class="btn-secondary btn-sm" data-run="' + row.id + '">В обработку</button> ' +
+            '<button type="button" class="btn-danger btn-sm" data-del="' + row.id + '">Удалить</button>' +
+          '</td>';
+        tb.appendChild(tr);
+      });
+      tb.querySelectorAll('[data-run]').forEach(function (btn) {
+        btn.addEventListener('click', function () { runScenario(parseInt(btn.getAttribute('data-run'), 10)); });
+      });
+      tb.querySelectorAll('[data-del]').forEach(function (btn) {
+        btn.addEventListener('click', function () { delScenario(parseInt(btn.getAttribute('data-del'), 10)); });
+      });
+    } catch (e) {
+      if (String(e.message) === '401') { location.href = 'index.html'; return; }
+      showErr(e.message || 'Ошибка загрузки');
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function runScenario(id) {
+    clearErr();
+    try {
+      await PIApi.api('/api/scenarios/' + id + '/run', { method: 'POST' });
+      setTimeout(loadList, 400);
+    } catch (e) {
+      showErr(e.message);
+    }
+  }
+
+  async function delScenario(id) {
+    if (!confirm('Удалить сценарий #' + id + '?')) return;
+    clearErr();
+    try {
+      await PIApi.api('/api/scenarios/' + id, { method: 'DELETE' });
+      loadList();
+    } catch (e) {
+      showErr(e.message);
+    }
+  }
+
+  document.getElementById('btn-refresh').addEventListener('click', loadList);
+  document.getElementById('btn-new').addEventListener('click', function () {
+    document.getElementById('modal').classList.add('open');
+  });
+  document.getElementById('modal-cancel').addEventListener('click', function () {
+    document.getElementById('modal').classList.remove('open');
+  });
+  document.getElementById('modal').addEventListener('click', function (e) {
+    if (e.target.id === 'modal') document.getElementById('modal').classList.remove('open');
+  });
+
+  document.getElementById('form-new').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    clearErr();
+    var f = e.target;
+    var body = {
+      product_type: f.product_type.value,
+      origin_label: f.origin_label.value.trim(),
+      origin_code: f.origin_code.value.trim(),
+      destination_label: f.destination_label.value.trim(),
+      destination_code: f.destination_code.value.trim(),
+      date_departure: f.date_departure.value,
+      date_return: f.date_return.value || null,
+      time_departure_pref: f.time_departure_pref.value.trim() || null,
+      time_return_pref: f.time_return_pref.value.trim() || null,
+      passengers_adults: parseInt(f.passengers_adults.value, 10) || 1,
+      cabin_class: f.cabin_class.value.trim() || 'economy',
+      direct_only: f.direct_only.checked,
+      baggage_included: f.baggage_included.checked,
+      tariff_notes: f.tariff_notes.value.trim() || null
+    };
+    try {
+      await PIApi.api('/api/scenarios', { method: 'POST', body: JSON.stringify(body) });
+      document.getElementById('modal').classList.remove('open');
+      f.reset();
+      loadList();
+    } catch (err) {
+      showErr(err.message);
+    }
+  });
+
+  loadList();
+  </script>
+</body>
+</html>

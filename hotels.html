@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Intelligence - Hotels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><a href="index.html" class="vtb-logo-wrap">Price Intelligence</a><div class="sidebar-brand-sub">Travel</div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="index.html">Dashboard</a>
+      <div class="nav-section-label" style="margin-top:var(--space-4)">Search</div>
+      <a class="nav-item" href="avia.html">Avia</a>
+      <a class="nav-item" href="rail.html">Rail</a>
+      <a class="nav-item active" href="hotels.html">Hotels</a>
+      <a class="nav-item" href="tours.html">Tours</a>
+      <a class="nav-item" href="overview.html">Overview</a>
+    </nav>
+  </aside>
+  <div class="main-area">
+    <header class="topbar"><div class="topbar-left"><div><div class="topbar-title">Hotel search</div><div class="topbar-subtitle">Fill filters and click Find</div></div></div></header>
+    <div class="content">
+      <div class="search-panel">
+        <span class="search-panel-label">Search scenario</span>
+        <form id="search-form" class="search-fields" onsubmit="return false;">
+          <input type="hidden" name="origin_label" value="">
+          <input type="hidden" name="origin_code" value="">
+          <input type="hidden" name="cabin_class" value="hotel">
+          <div class="search-field"><label>City</label><input name="destination_label" placeholder="Istanbul"></div>
+          <div class="search-field"><label>City code</label><input name="destination_code" placeholder="IST"></div>
+          <div class="search-field"><label>Check-in</label><input type="date" name="date_departure"></div>
+          <div class="search-field"><label>Check-out</label><input type="date" name="date_return"></div>
+          <div class="search-field"><label>Guests</label><input type="number" min="1" max="9" name="passengers_adults" value="2"></div>
+          <div class="search-field"><label>Hotel class</label><select name="tariff_notes"><option value="3-5">3-5 stars</option><option value="3">3 stars</option><option value="4">4 stars</option><option value="5">5 stars</option></select></div>
+          <div class="search-field"><label>Breakfast</label><input type="checkbox" name="baggage_included"></div>
+          <div class="search-field"><label>Free cancellation</label><input type="checkbox" name="direct_only"></div>
+          <div class="search-field"><label>Comment</label><input name="time_departure_pref" placeholder="city center"></div>
+        </form>
+        <button id="btn-find" class="search-btn">Find</button>
+      </div>
+      <div class="card" style="margin-bottom:var(--space-6);"><div class="card-header"><div><div class="card-title">Search status</div><div class="card-subtitle" id="search-meta">Scenario not started</div></div></div><div class="card-body"><div id="search-status" style="font-size:var(--text-sm);color:var(--color-text-muted);">Waiting for run</div></div></div>
+      <div class="card"><div class="card-header"><div class="card-title">Results by platform</div><div class="card-subtitle">After Find: create scenario, run parser, show results</div></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Site</th><th>Price</th><th>Link</th><th>Notes</th></tr></thead><tbody id="results-body"><tr><td colspan="4" style="color:var(--color-text-muted)">No results yet.</td></tr></tbody></table></div></div>
+    </div>
+    <footer>Price Intelligence - Hotels</footer>
+  </div>
+</div>
+<script src="api/public-config.js"></script>
+<script src="js/pi-api.js"></script>
+<script src="js/search-ui.js"></script>
+<script>
+SearchUI.initSearchPage({ productType: "hotel" });
+</script>
+</body>
+</html>

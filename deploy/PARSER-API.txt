@@ -1,0 +1,85 @@
+================================================================================
+Микросервис парсера (parser_service) — HTTP API
+================================================================================
+
+Запуск (из корня репозитория pars/):
+
+  pip install -r requirements.txt
+  python -m uvicorn parser_service.main:app --host 127.0.0.1 --port 8810
+
+Или Windows: run_parser_service.cmd
+
+Переменные окружения (.env в корне pars/):
+
+  PARSER_SERVICE_API_KEY   — обязательно, общий секрет с основным приложением
+  PARSER_MODE              — mock | live
+  PARSER_BIND_HOST         — по умолчанию 127.0.0.1
+  PARSER_BIND_PORT         — по умолчанию 8810
+
+Основное приложение (Price Intelligence):
+
+  PARSER_SERVICE_URL=http://127.0.0.1:8810
+  PARSER_SERVICE_API_KEY=<тот же ключ>
+  PARSER_SERVICE_TIMEOUT=120
+
+Если PARSER_SERVICE_URL задан — при «В обработку» сценария запрос уходит в парсер.
+Если пусто — используется локальный режим основного процесса.
+
+Текущая реализация режимов:
+  - mock: тестовые детерминированные цены
+  - live: HTTP-запрос к площадке + попытка извлечь цену из HTML (best-effort)
+
+--------------------------------------------------------------------------------
+Эндпоинты
+--------------------------------------------------------------------------------
+
+GET /health
+  Без ключа. Проверка живости и что ключ на сервисе задан.
+
+GET /v1/platforms
+  Заголовок: X-Parser-Api-Key: <ключ>
+  Список площадок (код, имя, base_url).
+
+POST /v1/parse
+  Заголовок: X-Parser-Api-Key: <ключ>
+  Content-Type: application/json
+
+  Тело (пример):
+
+  {
+    "scenario_id": 1,
+    "product_type": "avia",
+    "origin_label": "Москва",
+    "origin_code": "MOW",
+    "destination_label": "Санкт-Петербург",
+    "destination_code": "LED",
+    "date_departure": "2026-04-15",
+    "date_return": "2026-04-20",
+    "time_departure_pref": "10:00",
+    "time_return_pref": null,
+    "passengers_adults": 2,
+    "cabin_class": "economy",
+    "direct_only": false,
+    "baggage_included": false,
+    "tariff_notes": null
+  }
+
+  Ответ 200:
+
+  {
+    "ok": true,
+    "mode": "mock",
+    "results": [
+      {
+        "platform_code": "vtb",
+        "display_name": "ВТБ Путешествия",
+        "price_rub": 49808,
+        "offer_url": "https://...",
+        "error": null,
+        "meta": { "mode": "mock" }
+      }
+    ],
+    "detail": null
+  }
+
+Swagger UI: http://127.0.0.1:8810/docs (для отладки; в проде ограничьте доступ).
